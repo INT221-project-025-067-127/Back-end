@@ -1,5 +1,6 @@
 package int221.project.project.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,10 +15,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "brand")
+@Table(name = "brands")
 public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String brandid;
+    @Column(name = "brand_id")
+    private String id;
+    @Column(name = "brand_name")
     private String name;
 }
