@@ -13,14 +13,16 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "brand")
-public class Brand {
+@AllArgsConstructor
+@Table(name = "color")
+public class Color {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "brand_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "color_id")
     private String id;
-    @Column(name = "brand_name")
+    @Column(name = "color_name")
     private String name;
+    @Column(name = "color_code")
+    private String code;
 }

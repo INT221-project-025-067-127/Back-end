@@ -1,5 +1,7 @@
 package int221.project.project.models;
 
+import java.sql.Blob;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,14 +15,14 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "brand")
-public class Brand {
+@AllArgsConstructor
+@Table(name = "product_image")
+public class Image {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "brand_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "image_id")
     private String id;
-    @Column(name = "brand_name")
-    private String name;
+    // @Column(name = "image")
+    // private String image;
 }
