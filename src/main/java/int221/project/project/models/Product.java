@@ -1,11 +1,17 @@
 package int221.project.project.models;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -16,16 +22,41 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "products")
+@Table(name = "product")
 public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private String id;
-    String name;
-    Double price;
-    Date releaseDate;
-    String description;
+    @Column(name = "product_name")
+    private String name;
+    @Column(name = "price")
+    private Double price;
+    @Column(name = "release_date")
+    private Date releaseDate;
+    @Column(name = "description")
+    private String description;
 
     @ManyToOne
-    @MapsId("id")
-    @JoinColumn(name = "brands_id")
-    Brand brand;
+    @JoinColumn(name = "brand_brand_id")
+    private Brand brand;
+
+    // @ManyToMany
+    // @JoinTable(name = "quantity", joinColumns = @JoinColumn(name =
+    // "product_product_id"), inverseJoinColumns = @JoinColumn(name =
+    // "color_color_id"))
+    // private Set<Color> color;
+
+    // @ManyToMany
+    // @JoinTable(name = "quantity", joinColumns = @JoinColumn(name =
+    // "product_product_id"), inverseJoinColumns = @JoinColumn(name =
+    // "product_size_size_id"))
+    // private Set<Size> size;
+
+    // @ManyToMany
+    // @JoinTable(name = "quantity", joinColumns = @JoinColumn(name =
+    // "product_product_id"), inverseJoinColumns = @JoinColumn(name =
+    // "product_image_image_id"))
+    // private Set<Image> image;
+
 }
