@@ -19,6 +19,7 @@ public class RESTController {
     private BrandService brandService;
     @Autowired
     private ProductService productService;
+    @Autowired
     private ProductDetailService productDetailService;
 
     @GetMapping("/brands")
