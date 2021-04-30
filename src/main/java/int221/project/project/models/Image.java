@@ -1,7 +1,5 @@
 package int221.project.project.models;
 
-import java.sql.Blob;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,6 +21,6 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "image_id")
     private String id;
-    // @Column(name = "image")
-    // private String image;
+    @Column(name = "image")
+    private String imageName;
 }
