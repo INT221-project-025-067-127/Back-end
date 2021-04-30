@@ -2,8 +2,12 @@ package int221.project.project.models;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -15,14 +19,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "quantity")
-public class ProductDetail implements Serializable {
+public class ProductDetail {
+    @EmbeddedId
+    private ProductDetailId productDetailId;
+
+    @Column(name = "amount")
     private int amount;
-    @Id
-    private String productId;
-    @Id
-    private String colorId;
-    @Id
-    private String sizeId;
-    @Id
-    private String imageId;
+
 }
