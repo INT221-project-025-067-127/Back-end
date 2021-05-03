@@ -3,6 +3,8 @@ package int221.project.project.models;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -25,6 +27,7 @@ import lombok.NoArgsConstructor;
 public class ProductDetail {
     @EmbeddedId
     @JsonIgnore
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private ProductDetailId productDetailId;
 
     @Column(name = "amount")
@@ -32,12 +35,12 @@ public class ProductDetail {
 
     @MapsId("productId")
     @ManyToOne
-    @JoinColumn(name = "product_product_id")
+    @JoinColumn(name = "product_product_id", insertable = false, updatable = false)
     private Product product;
 
     @MapsId("colorId")
     @ManyToOne
-    @JoinColumn(name = "color_color_id")
+    @JoinColumn(name = "color_color_id", insertable = false, updatable = false)
     private Color color;
 
     @MapsId("imageId")
@@ -47,6 +50,6 @@ public class ProductDetail {
 
     @MapsId("sizeId")
     @ManyToOne
-    @JoinColumn(name = "product_size_size_id")
+    @JoinColumn(name = "product_size_size_id", insertable = false, updatable = false)
     private Size size;
 }

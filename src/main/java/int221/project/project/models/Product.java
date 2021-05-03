@@ -9,7 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,9 +36,13 @@ public class Product {
     private Date releaseDate;
     @Column(name = "description")
     private String description;
+    @Column(name = "brand_brand_id")
+    @JsonIgnore
+    private String brandId;
 
+    @MapsId("brand_brand_id")
     @ManyToOne
-    @JoinColumn(name = "brand_brand_id")
+    @JoinColumn(insertable = false, updatable = false)
     private Brand brand;
 
     // @ManyToMany

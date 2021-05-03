@@ -16,4 +16,14 @@ public class ProductDetailService {
     public List<ProductDetail> getAll() {
         return repository.findAll();
     }
+
+    public void create(ProductDetail productDetail) {
+
+        repository.save(productDetail);
+    }
+
+    public void update(ProductDetail productDetail) {
+        repository.save(productDetail);
+    }
+
 }
