@@ -22,7 +22,7 @@ public class Size {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "size_id")
-    // @JsonIgnore
+    @JsonIgnore
     private String id;
     @Column(name = "product_size")
     private String size;

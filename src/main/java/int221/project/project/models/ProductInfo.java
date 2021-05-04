@@ -39,6 +39,7 @@ public class ProductInfo {
     @Column(name = "description")
     private String description;
     @Column(name = "brand_brand_id")
+    @JsonIgnore
     private String brandId;
 
     @ManyToOne

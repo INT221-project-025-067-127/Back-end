@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class Brand {
     @Id
     @Column(name = "brand_id")
-    // @JsonIgnore
+    @JsonIgnore
     private String id;
     @Column(name = "brand_name")
     private String name;

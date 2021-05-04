@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Quantity {
     @Id
-    // @JsonIgnore
+    @JsonIgnore
     private ProductDetailId id;
 
     @Column(name = "amount")
