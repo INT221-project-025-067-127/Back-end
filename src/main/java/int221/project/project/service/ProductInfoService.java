@@ -7,11 +7,13 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import int221.project.project.models.Brand;
 import int221.project.project.models.Image;
 import int221.project.project.models.Product;
 import int221.project.project.models.ProductDetailId;
 import int221.project.project.models.ProductInfo;
 import int221.project.project.models.Quantity;
+import int221.project.project.repositories.BrandRepository;
 import int221.project.project.repositories.ProductInfoRepository;
 
 @Service
@@ -21,14 +23,16 @@ public class ProductInfoService {
 
     @Autowired
     private BrandService brandService;
-//    @Autowired
-//    private ColorService colorService;
-//    @Autowired
-//    private SizeService sizeService;
-//    @Autowired
-//    private ImageService imageService;
+    @Autowired
+    private ColorService colorService;
+    @Autowired
+    private SizeService sizeService;
+    @Autowired
+    private ImageService imageService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private QuantityService quantityService;
 
     public List<ProductInfo> getAll() {
         System.out.println("Run");
@@ -36,14 +40,33 @@ public class ProductInfoService {
     }
 
     public ProductInfo create(ProductInfo product) {
-        product.setProductId("003");
-        product.setName("Name");
-        product.setPrice(123.1);
-        product.setReleaseDate(Date.valueOf("2020-12-14"));
-        product.setDescription("Description");
-        product.setBrandId(product.getBrandId());
-        product.setBrand(product.getBrand());
-        product.setQuantity(product.getQuantity());
-        return repository.save(product);
+        String productId = UUID.randomUUID().toString();
+        String brandId = brandService.getIdByName(product.getBrand().getName());
+
+        product.setProductId(productId);
+        product.setBrandId(brandId);
+        product.getBrand().setId(brandId);
+
+        Product newProduct = new Product(productId, product.getName(), product.getPrice(), product.getReleaseDate(),
+                product.getDescription(), brandService.getByName(product.getBrand().getName()));
+        productService.create(newProduct);
+
+        for (Image image : product.getImages()) {
+            image.setId(UUID.randomUUID().toString());
+            imageService.create(image);
+        }
+
+        for (Quantity quantity : product.getQuantity()) {
+            String colorId = colorService.getIdByName(quantity.getColor().getName());
+            String sizeId = sizeService.getIdByName(quantity.getSize().getSize());
+            quantity.setId(new ProductDetailId(colorId, productId, sizeId));
+            quantity.getColor().setId(colorId);
+            quantity.getSize().setId(sizeId);
+            quantityService.create(quantity);
+        }
+
+        // product.setQuantity(product.getQuantity());
+        // repository.save(product);
+        return product;
     }
 }

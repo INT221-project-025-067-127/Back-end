@@ -16,8 +16,10 @@ import int221.project.project.models.Product;
 import int221.project.project.models.ProductDetailId;
 import int221.project.project.models.ProductInfo;
 import int221.project.project.models.Quantity;
+import int221.project.project.repositories.ImageRepository;
 import int221.project.project.service.BrandService;
 import int221.project.project.service.ColorService;
+import int221.project.project.service.ImageService;
 import int221.project.project.service.ProductInfoService;
 import int221.project.project.service.ProductService;
 import int221.project.project.service.SizeService;
@@ -34,6 +36,8 @@ public class RESTController {
     private ColorService colorService;
     @Autowired
     private SizeService sizeService;
+    @Autowired
+    private ImageService imageService;
 
     @GetMapping("/brands")
     public List<Brand> getAllBrand() {
@@ -53,5 +57,20 @@ public class RESTController {
     @PostMapping("/addProductInfo")
     public ProductInfo addProduct(@RequestBody ProductInfo product) {
         return productInfoService.create(product);
+    }
+
+    @PostMapping("/postImage")
+    public Image postImage(@RequestBody Image image) {
+        image.setId(UUID.randomUUID().toString());
+        imageService.create(image);
+        return image;
+    }
+
+    @PostMapping("/postProduct")
+    public Product postProduct(@RequestBody Product product) {
+        product.setId(UUID.randomUUID().toString());
+        product.setBrand(brandService.getById(brandService.getIdByName(product.getBrand().getName())));
+        productService.create(product);
+        return product;
     }
 }

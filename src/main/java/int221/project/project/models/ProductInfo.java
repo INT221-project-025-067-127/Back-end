@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "product")
 public class ProductInfo {
     @Id
-    // @JsonIgnore
+    @JsonIgnore
     @Column(name = "product_id")
     private String productId;
     @Column(name = "product_name")
@@ -39,11 +39,10 @@ public class ProductInfo {
     @Column(name = "description")
     private String description;
     @Column(name = "brand_brand_id")
-    // @JsonIgnore
     private String brandId;
 
     @ManyToOne
-    @JoinColumn(insertable = false, updatable = false)
+    @JoinColumn(name = "brand_brand_id", insertable = false, updatable = false)
     private Brand brand;
 
     @OneToMany

@@ -21,6 +21,16 @@ public class BrandService {
         return repository.getOne(id);
     }
 
+    public Brand getByName(String name) {
+        List<Brand> brands = repository.findAll();
+        for (Brand brand : brands) {
+            if (brand.getName().equals(name)) {
+                return brand;
+            }
+        }
+        return null;
+    }
+
     public String getIdByName(String name) {
         List<Brand> brands = repository.findAll();
         for (Brand brand : brands) {

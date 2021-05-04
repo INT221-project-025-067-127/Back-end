@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "product")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private String id;
     @Column(name = "product_name")
@@ -36,13 +36,8 @@ public class Product {
     private Date releaseDate;
     @Column(name = "description")
     private String description;
-    @Column(name = "brand_brand_id")
-    @JsonIgnore
-    private String brandId;
 
-    @MapsId("id")
     @ManyToOne
-    @JoinColumn(insertable = false, updatable = false)
+    @JoinColumn(name = "brand_brand_id")
     private Brand brand;
-
 }
