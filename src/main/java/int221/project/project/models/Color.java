@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class Color {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // @JsonIgnore
+    @JsonIgnore
     @Column(name = "color_id")
     private String id;
     @Column(name = "color_name")

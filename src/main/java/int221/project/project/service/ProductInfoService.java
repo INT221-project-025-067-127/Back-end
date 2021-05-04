@@ -1,5 +1,6 @@
 package int221.project.project.service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,38 +21,29 @@ public class ProductInfoService {
 
     @Autowired
     private BrandService brandService;
-    @Autowired
-    private ColorService colorService;
-    @Autowired
-    private SizeService sizeService;
-    @Autowired
-    private ImageService imageService;
+//    @Autowired
+//    private ColorService colorService;
+//    @Autowired
+//    private SizeService sizeService;
+//    @Autowired
+//    private ImageService imageService;
     @Autowired
     private ProductService productService;
 
     public List<ProductInfo> getAll() {
+        System.out.println("Run");
         return repository.findAll();
     }
 
     public ProductInfo create(ProductInfo product) {
-        String brandId = brandService.getIdByName(product.getBrand().getName());
-        String productId = UUID.randomUUID().toString();
-
-        product.setBrandId(brandId);
-        product.getBrand().setId(brandId);
-        product.setProductId(productId);
-        for (Image image : product.getImages()) {
-            image.setId(UUID.randomUUID().toString());
-        }
-
-        for (Quantity quantity : product.getQuantity()) {
-            String colorId = colorService.getIdByName(quantity.getColor().getName());
-            String sizeId = sizeService.getIdByName(quantity.getSize().getSize());
-            quantity.getSize().setId(sizeId);
-
-            quantity.setId(new ProductDetailId(colorId, productId, sizeId));
-        }
-        // repository.save(product);
-        return product;
+        product.setProductId("003");
+        product.setName("Name");
+        product.setPrice(123.1);
+        product.setReleaseDate(Date.valueOf("2020-12-14"));
+        product.setDescription("Description");
+        product.setBrandId(product.getBrandId());
+        product.setBrand(product.getBrand());
+        product.setQuantity(product.getQuantity());
+        return repository.save(product);
     }
 }

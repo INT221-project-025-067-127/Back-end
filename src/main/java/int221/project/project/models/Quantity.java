@@ -1,8 +1,8 @@
 package int221.project.project.models;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "quantity")
 @Entity
 public class Quantity {
-    @EmbeddedId
+    @Id
     // @JsonIgnore
     private ProductDetailId id;
 

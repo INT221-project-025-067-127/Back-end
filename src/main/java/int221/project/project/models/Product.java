@@ -40,7 +40,7 @@ public class Product {
     @JsonIgnore
     private String brandId;
 
-    @MapsId("brand_brand_id")
+    @MapsId("id")
     @ManyToOne
     @JoinColumn(insertable = false, updatable = false)
     private Brand brand;
