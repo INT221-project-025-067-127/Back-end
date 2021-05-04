@@ -1,19 +1,16 @@
 package int221.project.project.service;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import int221.project.project.models.Brand;
 import int221.project.project.models.Image;
 import int221.project.project.models.Product;
 import int221.project.project.models.ProductDetailId;
 import int221.project.project.models.ProductInfo;
 import int221.project.project.models.Quantity;
-import int221.project.project.repositories.BrandRepository;
 import int221.project.project.repositories.ProductInfoRepository;
 
 @Service
@@ -64,9 +61,6 @@ public class ProductInfoService {
             quantity.getSize().setId(sizeId);
             quantityService.create(quantity);
         }
-
-        // product.setQuantity(product.getQuantity());
-        // repository.save(product);
         return product;
     }
 }
