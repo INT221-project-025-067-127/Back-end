@@ -45,22 +45,4 @@ public class Product {
     @JoinColumn(insertable = false, updatable = false)
     private Brand brand;
 
-    // @ManyToMany
-    // @JoinTable(name = "quantity", joinColumns = @JoinColumn(name =
-    // "product_product_id"), inverseJoinColumns = @JoinColumn(name =
-    // "color_color_id"))
-    // private Set<Color> color;
-
-    // @ManyToMany
-    // @JoinTable(name = "quantity", joinColumns = @JoinColumn(name =
-    // "product_product_id"), inverseJoinColumns = @JoinColumn(name =
-    // "product_size_size_id"))
-    // private Set<Size> size;
-
-    // @ManyToMany
-    // @JoinTable(name = "quantity", joinColumns = @JoinColumn(name =
-    // "product_product_id"), inverseJoinColumns = @JoinColumn(name =
-    // "product_image_image_id"))
-    // private Set<Image> image;
-
 }
