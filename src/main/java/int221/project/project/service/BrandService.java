@@ -11,10 +11,24 @@ import int221.project.project.repositories.BrandRepository;
 @Service
 public class BrandService {
     @Autowired
-    private BrandRepository brandRepository;
+    private BrandRepository repository;
 
     public List<Brand> getAll() {
-        return brandRepository.findAll();
+        return repository.findAll();
+    }
+
+    public Brand getById(String id) {
+        return repository.getOne(id);
+    }
+
+    public String getIdByName(String name) {
+        List<Brand> brands = repository.findAll();
+        for (Brand brand : brands) {
+            if (brand.getName().equals(name)) {
+                return brand.getId();
+            }
+        }
+        return null;
     }
 
 }
