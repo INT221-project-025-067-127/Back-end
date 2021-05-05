@@ -1,10 +1,12 @@
 package int221.project.project.controller;
 
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,38 +31,42 @@ public class RESTController {
     @Autowired
     private ImageService imageService;
 
-    @GetMapping("/brands")
+    @GetMapping("/api/brands")
     public List<Brand> getAllBrand() {
         return brandService.getAll();
     }
 
-    @GetMapping("/products")
+    @GetMapping("/api/products")
     public List<Product> getALlProduct() {
         return productService.getAll();
     }
 
-    @GetMapping("/productsInfo")
+    @GetMapping("/api/productsInfo")
     public List<ProductInfo> getAllProductWithInfo() {
         return productInfoService.getAll();
     }
 
-    @PostMapping("/addProductInfo")
+    @GetMapping("/api/productInfo/{id}")
+    public ProductInfo getById(@PathVariable String id) {
+        System.out.println(id);
+        return productInfoService.getById(id);
+    }
+
+    @PostMapping("/api/product")
+    public Product postProduct(@RequestBody Product product) {
+        product.setId(UUID.randomUUID().toString());
+        product.setBrand(brandService.getByName(product.getBrand().getName()));
+        productService.create(product);
+        return product;
+    }
+
+    @PostMapping("/api/productInfo")
     public ProductInfo addProduct(@RequestBody ProductInfo product) {
         return productInfoService.create(product);
     }
 
-    @PostMapping("/postImage")
-    public Image postImage(@RequestBody Image image) {
-        image.setId(UUID.randomUUID().toString());
-        imageService.create(image);
-        return image;
-    }
-
-    @PostMapping("/postProduct")
-    public Product postProduct(@RequestBody Product product) {
-        product.setId(UUID.randomUUID().toString());
-        product.setBrand(brandService.getById(brandService.getIdByName(product.getBrand().getName())));
-        productService.create(product);
-        return product;
+    @GetMapping("/api/image")
+    public File getImage() {
+        return null;
     }
 }

@@ -23,4 +23,6 @@ public class Image {
     private String id;
     @Column(name = "image")
     private String imageName;
+    @Column(name = "product_product_id")
+    private String productId;
 }

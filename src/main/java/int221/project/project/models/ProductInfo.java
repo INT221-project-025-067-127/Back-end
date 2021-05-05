@@ -1,5 +1,6 @@
 package int221.project.project.models;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
@@ -22,9 +23,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "product")
-public class ProductInfo {
+public class ProductInfo implements Serializable {
     @Id
-    @JsonIgnore
     @Column(name = "product_id")
     private String productId;
     @Column(name = "product_name")

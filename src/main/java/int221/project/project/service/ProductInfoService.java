@@ -50,6 +50,7 @@ public class ProductInfoService {
 
         for (Image image : product.getImages()) {
             image.setId(UUID.randomUUID().toString());
+            image.setProductId(productId);
             imageService.create(image);
         }
 
@@ -62,5 +63,15 @@ public class ProductInfoService {
             quantityService.create(quantity);
         }
         return product;
+    }
+
+    public ProductInfo getById(String id) {
+        List<ProductInfo> products = repository.findAll();
+        for (ProductInfo productInfo : products) {
+            if (productInfo.getProductId().equals(id)) {
+                return productInfo;
+            }
+        }
+        return null;
     }
 }
