@@ -45,11 +45,9 @@ public class ProductInfo implements Serializable {
 
     @OneToMany
     @JoinColumn(name = "product_product_id")
-    // @NotFound(action = NotFoundAction.IGNORE)
     private List<Quantity> quantity;
 
     @OneToMany
     @JoinColumn(name = "product_product_id")
-    // @NotFound(action = NotFoundAction.IGNORE)
     private List<Image> images;
 }
