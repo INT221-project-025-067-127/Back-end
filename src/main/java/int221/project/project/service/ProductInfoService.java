@@ -37,7 +37,7 @@ public class ProductInfoService {
     }
 
     public ProductInfo create(ProductInfo product) {
-        String productId = UUID.randomUUID().toString();
+        String productId = product.getProductId();
         String brandId = brandService.getIdByName(product.getBrand().getName());
 
         product.setProductId(productId);
