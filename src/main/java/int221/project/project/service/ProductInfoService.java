@@ -1,10 +1,14 @@
 package int221.project.project.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import int221.project.project.models.Image;
 import int221.project.project.models.Product;
@@ -38,8 +42,18 @@ public class ProductInfoService {
         return repository.findAll();
     }
 
-    public ProductInfo create(ProductInfo product) {
+    public ProductInfo create(ProductInfo product, MultipartFile[] files) {
+        List<String> filesname = fileService.upload(files);
+        List<Image> images = new ArrayList<>();
         String productId = product.getProductId();
+
+        for (String filename : filesname) {
+            Image newImage = new Image(UUID.randomUUID().toString(), filename, productId);
+            images.add(newImage);
+        }
+        product.setImages(images);
+        product.setProductId(UUID.randomUUID().toString());
+
         String brandId = brandService.getIdByName(product.getBrand().getName());
 
         product.setProductId(productId);
@@ -67,14 +81,20 @@ public class ProductInfoService {
         return product;
     }
 
+    public ProductInfo edit(ProductInfo product, MultipartFile[] files) {
+        delete(product.getProductId());
+        create(product, files);
+        return product;
+
+    }
+
     public ProductInfo getById(String id) {
-        List<ProductInfo> products = repository.findAll();
-        for (ProductInfo productInfo : products) {
-            if (productInfo.getProductId().equals(id)) {
-                return productInfo;
-            }
+        try {
+            return repository.findById(id).get();
+        } catch (Exception e) {
+            throw new RuntimeException("Product Not found");
         }
-        return null;
+
     }
 
     public ProductInfo delete(String id) {

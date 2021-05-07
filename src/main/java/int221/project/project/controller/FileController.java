@@ -31,24 +31,27 @@ public class FileController {
     @Autowired
     private FileStorageService storageService;
 
-    @PostMapping("/api/upload")
-    public ResponseEntity<ResponseMessage> upload(@RequestParam("files") MultipartFile[] files) {
-        String message = "";
-        try {
-            List<String> filenames = new ArrayList<>();
+    // @PostMapping("/api/upload")
+    // public ResponseEntity<ResponseMessage> upload(@RequestParam("files")
+    // MultipartFile[] files) {
+    // String message = "";
+    // try {
+    // List<String> filenames = new ArrayList<>();
 
-            Arrays.asList(files).stream().forEach(file -> {
-                storageService.save(file);
-                filenames.add(file.getOriginalFilename());
-            });
+    // Arrays.asList(files).stream().forEach(file -> {
+    // storageService.save(file);
+    // filenames.add(file.getOriginalFilename());
+    // });
 
-            message = "Uploaded the files successfully: " + filenames;
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-        } catch (Exception e) {
-            message = "Fail to upload files!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
-        }
-    }
+    // message = "Uploaded the files successfully: " + filenames;
+    // return ResponseEntity.status(HttpStatus.OK).body(new
+    // ResponseMessage(message));
+    // } catch (Exception e) {
+    // message = "Fail to upload files!";
+    // return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new
+    // ResponseMessage(message));
+    // }
+    // }
 
     @GetMapping("/api/files")
     public ResponseEntity<List<FileInfo>> getListFiles() {
@@ -71,11 +74,5 @@ public class FileController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
                 .contentType(MediaType.IMAGE_PNG).body(file);
-    }
-
-    @DeleteMapping("/api/file/{filename}")
-    public ResponseEntity<ResponseMessage> deleteFile(@PathVariable String filename) {
-        storageService.delete(filename);
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("deleted; filename=\"" + filename + "\""));
     }
 }

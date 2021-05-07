@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -52,7 +53,6 @@ public class RESTController {
 
     @GetMapping("/api/productInfo/{id}")
     public ProductInfo getById(@PathVariable String id) {
-        System.out.println(id);
         return productInfoService.getById(id);
     }
 
@@ -66,21 +66,20 @@ public class RESTController {
 
     @PostMapping("/api/productInfo")
     public void addProduct(@RequestPart ProductInfo product, @RequestParam("files") MultipartFile[] files) {
-        List<String> filesname = fileService.upload(files);
-        List<Image> image = new ArrayList<>();
-        String productId = UUID.randomUUID().toString();
-        product.setImages(image);
-        for (String filename : filesname) {
-            Image newImage = new Image(UUID.randomUUID().toString(), filename, productId);
-            image.add(newImage);
-        }
         product.setProductId(UUID.randomUUID().toString());
-        productInfoService.create(product);
+        productInfoService.create(product, files);
     }
 
     @DeleteMapping("/api/product/{id}")
     public void deleteProduct(@PathVariable String id) {
         productInfoService.delete(id);
+    }
+
+    @PutMapping("/api/product/{id}")
+    public ProductInfo editProduct(@PathVariable String id, @RequestPart ProductInfo product,
+            @RequestParam("files") MultipartFile[] files) {
+        product.setProductId(id);
+        return productInfoService.edit(product, files);
     }
 
 }
