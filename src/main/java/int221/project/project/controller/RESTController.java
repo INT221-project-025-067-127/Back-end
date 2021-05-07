@@ -1,6 +1,5 @@
 package int221.project.project.controller;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +21,6 @@ import int221.project.project.models.Product;
 import int221.project.project.models.ProductInfo;
 import int221.project.project.service.BrandService;
 import int221.project.project.service.FileService;
-import int221.project.project.service.ImageService;
 import int221.project.project.service.ProductInfoService;
 import int221.project.project.service.ProductService;
 
@@ -34,8 +32,6 @@ public class RESTController {
     private ProductService productService;
     @Autowired
     private ProductInfoService productInfoService;
-    @Autowired
-    private ImageService imageService;
     @Autowired
     private FileService fileService;
 

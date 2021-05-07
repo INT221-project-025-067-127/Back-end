@@ -12,7 +12,6 @@ import int221.project.project.models.ProductDetailId;
 import int221.project.project.models.ProductInfo;
 import int221.project.project.models.Quantity;
 import int221.project.project.repositories.ProductInfoRepository;
-import int221.project.project.repositories.ProductRepository;
 
 @Service
 public class ProductInfoService {
@@ -90,7 +89,6 @@ public class ProductInfoService {
         }
 
         productService.delete(id);
-
         return product;
     }
 }

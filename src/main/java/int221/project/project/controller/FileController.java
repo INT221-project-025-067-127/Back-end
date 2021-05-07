@@ -3,7 +3,6 @@ package int221.project.project.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +23,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 
 import int221.project.project.exception.ResponseMessage;
 import int221.project.project.models.FileInfo;
-import int221.project.project.models.Image;
 import int221.project.project.service.FileStorageService;
-import int221.project.project.service.ImageService;
 
 @RestController
 @CrossOrigin(origins = "*")

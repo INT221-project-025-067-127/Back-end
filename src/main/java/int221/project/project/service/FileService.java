@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import int221.project.project.controller.FileController;
-import int221.project.project.exception.ResponseMessage;
 import int221.project.project.models.FileInfo;
 
 @Service
