@@ -7,6 +7,6 @@ RUN mvn -f pom.xml clean package
 
 FROM openjdk:11.0-slim
 COPY --from=build /backend/target/*.jar app.jar
+COPY images /images
 EXPOSE 9000
-COPY src/main/resources/images /images
 ENTRYPOINT ["java","-jar","app.jar"]
