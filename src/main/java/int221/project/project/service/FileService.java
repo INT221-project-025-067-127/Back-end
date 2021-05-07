@@ -27,7 +27,7 @@ public class FileService {
     private FileStorageService storageService;
 
     public List<String> upload(@RequestParam("files") MultipartFile[] files) {
-        String message = "";
+        // String message = "";
         try {
             List<String> filenames = new ArrayList<>();
 
@@ -62,5 +62,9 @@ public class FileService {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
                 .contentType(MediaType.IMAGE_PNG).body(file);
+    }
+
+    public void deleteFile(String filename) {
+        storageService.delete(filename);
     }
 }

@@ -33,6 +33,14 @@ public class FileStorageService {
         }
     }
 
+    public void delete(String filename) {
+        try {
+            Files.delete(Path.of(root.toString() + "/" + filename));
+        } catch (Exception e) {
+            throw new RuntimeException("ลบไฟล์ไม่ได้อ้ะ");
+        }
+    }
+
     public Resource load(String fileName) {
         try {
             Path file = root.resolve(fileName);

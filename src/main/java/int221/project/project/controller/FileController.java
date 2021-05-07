@@ -75,4 +75,10 @@ public class FileController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
                 .contentType(MediaType.IMAGE_PNG).body(file);
     }
+
+    @DeleteMapping("/api/file/{filename}")
+    public ResponseEntity<ResponseMessage> deleteFile(@PathVariable String filename) {
+        storageService.delete(filename);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("deleted; filename=\"" + filename + "\""));
+    }
 }

@@ -12,6 +12,7 @@ import int221.project.project.models.ProductDetailId;
 import int221.project.project.models.ProductInfo;
 import int221.project.project.models.Quantity;
 import int221.project.project.repositories.ProductInfoRepository;
+import int221.project.project.repositories.ProductRepository;
 
 @Service
 public class ProductInfoService {
@@ -30,6 +31,8 @@ public class ProductInfoService {
     private ProductService productService;
     @Autowired
     private QuantityService quantityService;
+    @Autowired
+    private FileService fileService;
 
     public List<ProductInfo> getAll() {
         System.out.println("Run");
@@ -73,5 +76,21 @@ public class ProductInfoService {
             }
         }
         return null;
+    }
+
+    public ProductInfo delete(String id) {
+        ProductInfo product = repository.getOne(id);
+
+        for (Quantity quantity : product.getQuantity()) {
+            quantityService.delete(quantity.getId());
+        }
+        for (Image image : product.getImages()) {
+            imageService.delete(image.getId());
+            fileService.deleteFile(image.getImageName());
+        }
+
+        productService.delete(id);
+
+        return product;
     }
 }

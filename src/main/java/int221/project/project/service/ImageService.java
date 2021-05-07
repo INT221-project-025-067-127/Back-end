@@ -22,4 +22,8 @@ public class ImageService {
         return image;
     }
 
+    public void delete(String id) {
+        repository.deleteById(id);
+    }
+
 }

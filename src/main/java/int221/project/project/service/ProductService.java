@@ -21,4 +21,8 @@ public class ProductService {
         repository.save(product);
         return product;
     }
+
+    public void delete(String id) {
+        repository.deleteById(id);
+    }
 }
