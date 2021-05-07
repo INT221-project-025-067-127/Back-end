@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FileStorageService {
-    private final Path root = Paths.get("src/main/resources/images");
+    private final Path root = Paths.get("images");
 
     public void init() {
         try {
