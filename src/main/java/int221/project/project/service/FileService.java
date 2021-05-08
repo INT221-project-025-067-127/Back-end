@@ -5,7 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.core.io.Resource;
+import org.aspectj.weaver.patterns.IfPointcut.IfTruePointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import int221.project.project.controller.FileController;
+import int221.project.project.exception.ProductException;
+import int221.project.project.exception.ExceptionResponse.ERROR_CODE;
 import int221.project.project.models.FileInfo;
 
 @Service
@@ -26,20 +31,16 @@ public class FileService {
     private FileStorageService storageService;
 
     public List<String> upload(@RequestParam("files") MultipartFile[] files) {
-        // String message = "";
-        try {
-            List<String> filenames = new ArrayList<>();
-
-            Arrays.asList(files).stream().forEach(file -> {
-                storageService.save(file);
-                filenames.add(file.getOriginalFilename());
-            });
-            return filenames;
-        } catch (Exception e) {
-            List<String> err = new ArrayList<>();
-            err.add("แดงเฉย");
-            return err;
+        if (files[0].getSize() == 0) {
+            throw new ProductException(ERROR_CODE.FILE_ERROR, "no file uploaded");
         }
+
+        List<String> filenames = new ArrayList<>();
+        Arrays.asList(files).stream().forEach(file -> {
+            storageService.save(file);
+            filenames.add(file.getOriginalFilename());
+        });
+        return filenames;
     }
 
     public ResponseEntity<List<FileInfo>> getListFiles() {

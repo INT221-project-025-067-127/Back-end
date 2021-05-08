@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import int221.project.project.exception.ProductException;
+import int221.project.project.exception.ExceptionResponse.ERROR_CODE;
+
 @Service
 public class FileStorageService {
     private final Path root = Paths.get("images");
@@ -27,7 +30,8 @@ public class FileStorageService {
         try {
             Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
         } catch (Exception e) {
-            throw new RuntimeException("เก็บไฟล์ไม่ได้จ้า");
+            throw new ProductException(ERROR_CODE.FILE_ALREADY_EXIST,
+                    "file " + file.getOriginalFilename() + " is already exists");
         }
     }
 
@@ -43,13 +47,13 @@ public class FileStorageService {
         try {
             Path file = root.resolve(fileName);
             Resource resource = new UrlResource(file.toUri());
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            } else {
-                throw new RuntimeException("อ่านไฟล์ไม่ได้นะจ๊ะ");
+            if (!resource.isReadable()) {
+                throw new ProductException(ERROR_CODE.FILE_ERROR, "Can't Read File");
             }
+            return resource;
+
         } catch (Exception e) {
-            throw new RuntimeException("ERROR: " + e.getMessage());
+            throw new ProductException(ERROR_CODE.FILE_NOT_FOUND, "File Not Found");
         }
     }
 

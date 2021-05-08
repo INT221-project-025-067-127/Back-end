@@ -2,14 +2,18 @@ package int221.project.project.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import javax.management.RuntimeErrorException;
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import int221.project.project.exception.ProductException;
+import int221.project.project.exception.ExceptionResponse.ERROR_CODE;
 import int221.project.project.models.Image;
 import int221.project.project.models.Product;
 import int221.project.project.models.ProductDetailId;
@@ -82,6 +86,9 @@ public class ProductInfoService {
     }
 
     public ProductInfo edit(ProductInfo product, MultipartFile[] files) {
+        if (files[0].getSize() == 0) {
+            throw new ProductException(ERROR_CODE.FILE_ERROR, "no file uploaded");
+        }
         delete(product.getProductId());
         create(product, files);
         return product;
@@ -91,24 +98,26 @@ public class ProductInfoService {
     public ProductInfo getById(String id) {
         try {
             return repository.findById(id).get();
-        } catch (Exception e) {
-            throw new RuntimeException("Product Not found");
+        } catch (NoSuchElementException e) {
+            throw new ProductException(ERROR_CODE.PRODUCT_NOT_FOUND, "Product Not Found");
         }
 
     }
 
     public ProductInfo delete(String id) {
-        ProductInfo product = repository.getOne(id);
-
-        for (Quantity quantity : product.getQuantity()) {
-            quantityService.delete(quantity.getId());
+        try {
+            ProductInfo product = getById(id);
+            for (Image image : product.getImages()) {
+                imageService.delete(image.getId());
+                fileService.deleteFile(image.getImageName());
+            }
+            for (Quantity quantity : product.getQuantity()) {
+                quantityService.delete(quantity.getId());
+            }
+            productService.delete(id);
+            return product;
+        } catch (EntityNotFoundException e) {
+            throw new ProductException(ERROR_CODE.PRODUCT_NOT_FOUND, "Product Not Found");
         }
-        for (Image image : product.getImages()) {
-            imageService.delete(image.getId());
-            fileService.deleteFile(image.getImageName());
-        }
-
-        productService.delete(id);
-        return product;
     }
 }

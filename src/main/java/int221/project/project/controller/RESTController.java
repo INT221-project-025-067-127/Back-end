@@ -1,6 +1,5 @@
 package int221.project.project.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import int221.project.project.exception.ExceptionResponse;
+import int221.project.project.exception.ProductException;
 import int221.project.project.models.Brand;
 import int221.project.project.models.Image;
 import int221.project.project.models.Product;
@@ -33,8 +34,6 @@ public class RESTController {
     private ProductService productService;
     @Autowired
     private ProductInfoService productInfoService;
-    @Autowired
-    private FileService fileService;
 
     @GetMapping("/api/brands")
     public List<Brand> getAllBrand() {
@@ -81,5 +80,11 @@ public class RESTController {
         product.setProductId(id);
         return productInfoService.edit(product, files);
     }
+
+    // @GetMapping("/api/exception")
+    // public void getException() {
+    // throw new ProductException(ExceptionResponse.ERROR_CODE.FILE_ALREADY_EXIST,
+    // "file is already exists");
+    // }
 
 }
