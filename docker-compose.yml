@@ -1,7 +1,16 @@
 version: "3.3"
 services:
     backend:
-        build: .
-        container_name: backend
-        ports:
+      build: .
+      container_name: backend
+      ports:
         - '9000:9000'
+      environment:
+        - DB_SERVER=${DB_SERVER}
+        - DB_USER=${DB_USER}
+        - DB_PASSWORD=${DB_PASSWORD}
+
+networks:
+  default:
+    external:
+      name: myproject
