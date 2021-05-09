@@ -13,6 +13,10 @@ public class ColorService {
     @Autowired
     private ColorRepository repository;
 
+    public List<Color> getAll() {
+        return repository.findAll();
+    }
+
     public Color getById(String id) {
         return repository.getOne(id);
     }

@@ -18,13 +18,17 @@ import org.springframework.web.multipart.MultipartFile;
 import int221.project.project.exception.ExceptionResponse;
 import int221.project.project.exception.ProductException;
 import int221.project.project.models.Brand;
+import int221.project.project.models.Color;
 import int221.project.project.models.Image;
 import int221.project.project.models.Product;
 import int221.project.project.models.ProductInfo;
+import int221.project.project.models.Size;
 import int221.project.project.service.BrandService;
+import int221.project.project.service.ColorService;
 import int221.project.project.service.FileService;
 import int221.project.project.service.ProductInfoService;
 import int221.project.project.service.ProductService;
+import int221.project.project.service.SizeService;
 
 @RestController
 public class RESTController {
@@ -34,10 +38,24 @@ public class RESTController {
     private ProductService productService;
     @Autowired
     private ProductInfoService productInfoService;
+    @Autowired
+    private SizeService sizeService;
+    @Autowired
+    private ColorService colorService;
 
     @GetMapping("/api/brands")
     public List<Brand> getAllBrand() {
         return brandService.getAll();
+    }
+
+    @GetMapping("/api/sizes")
+    public List<Size> getAllSize() {
+        return sizeService.getALl();
+    }
+
+    @GetMapping("/api/colors")
+    public List<Color> getAllColors() {
+        return colorService.getAll();
     }
 
     @GetMapping("/api/products")
