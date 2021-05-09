@@ -9,6 +9,7 @@ import javax.management.RuntimeErrorException;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,42 +48,49 @@ public class ProductInfoService {
     }
 
     public ProductInfo create(ProductInfo product, MultipartFile[] files) {
-        List<String> filesname = fileService.upload(files);
-        List<Image> images = new ArrayList<>();
-        String productId = product.getProductId();
+        try {
+            List<String> filesname = fileService.upload(files);
+            List<Image> images = new ArrayList<>();
+            String productId = product.getProductId();
 
-        for (String filename : filesname) {
-            Image newImage = new Image(UUID.randomUUID().toString(), filename, productId);
-            images.add(newImage);
+            for (String filename : filesname) {
+                Image newImage = new Image(UUID.randomUUID().toString(), filename, productId);
+                images.add(newImage);
+            }
+            product.setImages(images);
+            product.setProductId(UUID.randomUUID().toString());
+
+            String brandId = brandService.getIdByName(product.getBrand().getName());
+
+            product.setProductId(productId);
+            product.setBrandId(brandId);
+            product.getBrand().setId(brandId);
+
+            Product newProduct = new Product(productId, product.getName(), product.getPrice(), product.getReleaseDate(),
+                    product.getDescription(), brandService.getByName(product.getBrand().getName()));
+            productService.create(newProduct);
+
+            for (Image image : product.getImages()) {
+                image.setId(UUID.randomUUID().toString());
+                image.setProductId(productId);
+                imageService.create(image);
+            }
+
+            for (Quantity quantity : product.getQuantity()) {
+                String colorId = colorService.getIdByName(quantity.getColor().getName());
+                String sizeId = sizeService.getIdByName(quantity.getSize().getSize());
+                quantity.setId(new ProductDetailId(colorId, productId, sizeId));
+                quantity.getColor().setId(colorId);
+                quantity.getSize().setId(sizeId);
+                quantityService.create(quantity);
+            }
+            return product;
+        } catch (DataIntegrityViolationException e) {
+            for (MultipartFile file : files) {
+                fileService.deleteFile(file.getOriginalFilename());
+            }
+            throw new ProductException(ERROR_CODE.PRODUCT_ALREADY_EXIST, "product is already exists");
         }
-        product.setImages(images);
-        product.setProductId(UUID.randomUUID().toString());
-
-        String brandId = brandService.getIdByName(product.getBrand().getName());
-
-        product.setProductId(productId);
-        product.setBrandId(brandId);
-        product.getBrand().setId(brandId);
-
-        Product newProduct = new Product(productId, product.getName(), product.getPrice(), product.getReleaseDate(),
-                product.getDescription(), brandService.getByName(product.getBrand().getName()));
-        productService.create(newProduct);
-
-        for (Image image : product.getImages()) {
-            image.setId(UUID.randomUUID().toString());
-            image.setProductId(productId);
-            imageService.create(image);
-        }
-
-        for (Quantity quantity : product.getQuantity()) {
-            String colorId = colorService.getIdByName(quantity.getColor().getName());
-            String sizeId = sizeService.getIdByName(quantity.getSize().getSize());
-            quantity.setId(new ProductDetailId(colorId, productId, sizeId));
-            quantity.getColor().setId(colorId);
-            quantity.getSize().setId(sizeId);
-            quantityService.create(quantity);
-        }
-        return product;
     }
 
     public ProductInfo edit(ProductInfo product, MultipartFile[] files) {
