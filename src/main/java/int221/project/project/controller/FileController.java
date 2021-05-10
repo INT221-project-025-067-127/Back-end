@@ -26,7 +26,8 @@ import int221.project.project.models.FileInfo;
 import int221.project.project.service.FileStorageService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = { "http://localhost:8080", "http://localhost:8081", "http://localhost:8082",
+        "http://52.163.222.28" })
 public class FileController {
     @Autowired
     private FileStorageService storageService;

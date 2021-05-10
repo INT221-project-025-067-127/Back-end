@@ -32,7 +32,8 @@ import int221.project.project.service.ProductService;
 import int221.project.project.service.SizeService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = { "http://localhost:8080", "http://localhost:8081", "http://localhost:8082",
+        "http://52.163.222.28" })
 public class RESTController {
     @Autowired
     private BrandService brandService;
