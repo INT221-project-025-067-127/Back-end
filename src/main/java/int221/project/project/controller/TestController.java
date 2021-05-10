@@ -10,22 +10,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "http://52.163.222.28/")
 public class TestController {
-    @GetMapping
+    @GetMapping("/get")
     public String get() {
         return "get";
     }
 
-    @PostMapping
+    @PostMapping("/post")
     public String post() {
         return "post";
     }
 
-    @PutMapping
+    @PutMapping("/put")
     public String put() {
         return "put";
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete")
     public String delete() {
         return "delete";
     }
