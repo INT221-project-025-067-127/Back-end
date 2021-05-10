@@ -31,7 +31,7 @@ public class FileController {
     @Autowired
     private FileStorageService storageService;
 
-    @GetMapping("/api/files")
+    @GetMapping("/files")
     public ResponseEntity<List<FileInfo>> getListFiles() {
         List<FileInfo> fileInfos = storageService.loadAll().map(path -> {
             String filename = path.getFileName().toString();
@@ -45,7 +45,7 @@ public class FileController {
         return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
     }
 
-    @GetMapping("/api/files/{filename:.+}")
+    @GetMapping("/files/{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         Resource file = storageService.load(filename);
 

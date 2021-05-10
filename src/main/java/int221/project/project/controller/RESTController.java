@@ -45,37 +45,37 @@ public class RESTController {
     @Autowired
     private ColorService colorService;
 
-    @GetMapping("/api/brands")
+    @GetMapping("/brands")
     public List<Brand> getAllBrand() {
         return brandService.getAll();
     }
 
-    @GetMapping("/api/sizes")
+    @GetMapping("/sizes")
     public List<Size> getAllSize() {
         return sizeService.getALl();
     }
 
-    @GetMapping("/api/colors")
+    @GetMapping("/colors")
     public List<Color> getAllColors() {
         return colorService.getAll();
     }
 
-    @GetMapping("/api/products")
+    @GetMapping("/products")
     public List<Product> getALlProduct() {
         return productService.getAll();
     }
 
-    @GetMapping("/api/productsInfo")
+    @GetMapping("/productsInfo")
     public List<ProductInfo> getAllProductWithInfo() {
         return productInfoService.getAll();
     }
 
-    @GetMapping("/api/productInfo/{id}")
+    @GetMapping("/productInfo/{id}")
     public ProductInfo getById(@PathVariable String id) {
         return productInfoService.getById(id);
     }
 
-    @PostMapping("/api/product")
+    @PostMapping("/product")
     public Product postProduct(@RequestBody Product product) {
         product.setId(UUID.randomUUID().toString());
         product.setBrand(brandService.getByName(product.getBrand().getName()));
@@ -83,25 +83,25 @@ public class RESTController {
         return product;
     }
 
-    @PostMapping("/api/productInfo")
+    @PostMapping("/productInfo")
     public void addProduct(@RequestPart ProductInfo product, @RequestParam("files") MultipartFile[] files) {
         product.setProductId(UUID.randomUUID().toString());
         productInfoService.create(product, files);
     }
 
-    @DeleteMapping("/api/product/{id}")
+    @DeleteMapping("/product/{id}")
     public void deleteProduct(@PathVariable String id) {
         productInfoService.delete(id);
     }
 
-    @PutMapping("/api/product/{id}")
+    @PutMapping("/product/{id}")
     public ProductInfo editProduct(@PathVariable String id, @RequestPart ProductInfo product,
             @RequestParam("files") MultipartFile[] files) {
         product.setProductId(id);
         return productInfoService.edit(product, files);
     }
 
-    // @GetMapping("/api/exception")
+    // @GetMapping("/exception")
     // public void getException() {
     // throw new ProductException(ExceptionResponse.ERROR_CODE.FILE_ALREADY_EXIST,
     // "file is already exists");
